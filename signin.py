@@ -8,9 +8,10 @@ from selenium.webdriver.common.keys import Keys
 
 CONFIG = './conf.ini'
 URL = 'https://www.doordash.com'
-EMAIL_FORM_ELEMENT_ID = 'FieldWrapper-2'
-PASSWD_FORM_ELEMENT_ID = 'FieldWrapper-3'
-SUBMIT_FORM_ELEMENT_ID = 'login-submit-button'
+EMAIL_FORM_ELEMENT_ID = '//*[@id="FieldWrapper-2"]'
+PASSWD_FORM_ELEMENT_ID = '//*[@id="FieldWrapper-3"]'
+SUBMIT_FORM_ELEMENT_ID = '//*[@id="login-submit-button"]'
+
 
 def signin(driver):
     driver.get(URL)
@@ -29,7 +30,7 @@ def signin(driver):
     pwd.clear()
     email.send_keys(os.environ['DD_USER'])
     pwd.send_keys(os.environ['DD_PASSWORD'])
-    time.sleep(2)
+    time.sleep(5)
     submit.click()
 
 
@@ -46,6 +47,9 @@ def config_setup():
     if 'DD_PASSWORD' not in os.environ:
         os.environ['DD_PASSWORD'] = config['doordash.com']['DD_PASSWORD']
 
+    print("USER: ", os.environ['DD_USER'])
+    print("PASSWORD: ", os.environ['DD_PASSWORD'])
+
 
 def main():
     config_setup()
@@ -55,7 +59,7 @@ def main():
     driver.implicitly_wait(10)
     signin(driver)
 
-    #time.sleep(5)
+    time.sleep(5)
     driver.close()
 
 
